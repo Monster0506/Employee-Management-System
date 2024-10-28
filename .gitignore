@@ -4,6 +4,7 @@
 
 # Ignore file where employee data is stored
 employees.txt
+*.empdata
 
 # Ignore IDE-specific files and directories
 # IntelliJ IDEA
