@@ -1,0 +1,26 @@
+# Ignore compiled class files
+/out/
+*.class
+
+# Ignore file where employee data is stored
+employees.txt
+
+# Ignore IDE-specific files and directories
+# IntelliJ IDEA
+/.idea/
+/*.iml
+
+# Eclipse
+/.classpath
+/.project
+/.settings/
+
+# VS Code settings
+.vscode/
+
+# MacOS specific files
+.DS_Store
+
+# Windows specific files
+Thumbs.db
+
