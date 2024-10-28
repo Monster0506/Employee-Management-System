@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -37,10 +40,7 @@ public class Main {
             System.out.println("No employees found.");
         } else {
             for (Employee employee : employeeService.getEmployees()) {
-                System.out.println("ID: " + employee.getId() +
-                        ", Name: " + employee.getName() +
-                        ", Department: " + employee.getDepartment() +
-                        ", Salary: " + employee.getSalary());
+                System.out.println(employee);  // `toString` method of Employee provides detailed output
             }
         }
     }
@@ -55,8 +55,62 @@ public class Main {
         String department = scanner.nextLine();
         System.out.print("Enter Salary: ");
         double salary = scanner.nextDouble();
+        scanner.nextLine(); // Consume newline
+        System.out.print("Enter Job Title: ");
+        String jobTitle = scanner.nextLine();
 
-        employeeService.addEmployee(new Employee(id, name, department, salary));
+        Employee employee = new Employee(id, name, department, salary, jobTitle);
+
+        // Collecting additional information
+        System.out.print("Enter Date of Birth (yyyy-MM-dd): ");
+        employee.setDateOfBirth(parseDate(scanner.nextLine()));
+        System.out.print("Enter Hire Date (yyyy-MM-dd): ");
+        employee.setHireDate(parseDate(scanner.nextLine()));
+        System.out.print("Enter Address: ");
+        employee.setAddress(scanner.nextLine());
+        System.out.print("Enter Phone: ");
+        employee.setPhone(scanner.nextLine());
+        System.out.print("Enter Email: ");
+        employee.setEmail(scanner.nextLine());
+
+        System.out.print("Enter Position Level: ");
+        employee.setPositionLevel(scanner.nextLine());
+        System.out.print("Enter Employment Status: ");
+        employee.setEmploymentStatus(scanner.nextLine());
+        System.out.print("Enter Performance Score: ");
+        employee.setPerformanceScore(scanner.nextInt());
+        scanner.nextLine(); // Consume newline
+        System.out.print("Enter Manager ID: ");
+        employee.setManagerId(scanner.nextInt());
+        scanner.nextLine(); // Consume newline
+
+        System.out.print("Enter Skills (comma-separated): ");
+        String[] skillsArray = scanner.nextLine().split(",");
+        List<String> skills = new ArrayList<>();
+        for (String skill : skillsArray) {
+            skills.add(skill.trim());
+        }
+        employee.setSkills(skills);
+
+        System.out.print("Enter Bonus: ");
+        employee.setBonus(scanner.nextDouble());
+        scanner.nextLine(); // Consume newline
+        System.out.print("Enter Benefits Package: ");
+        employee.setBenefitsPackage(scanner.nextLine());
+        System.out.print("Enter Vacation Days: ");
+        employee.setVacationDays(scanner.nextInt());
+        System.out.print("Enter Sick Days: ");
+        employee.setSickDays(scanner.nextInt());
+        scanner.nextLine(); // Consume newline
+
+        System.out.print("Enter Emergency Contact Name: ");
+        employee.setEmergencyContactName(scanner.nextLine());
+        System.out.print("Enter Emergency Contact Relation: ");
+        employee.setEmergencyContactRelation(scanner.nextLine());
+        System.out.print("Enter Emergency Contact Phone: ");
+        employee.setEmergencyContactPhone(scanner.nextLine());
+
+        employeeService.addEmployee(employee);
         System.out.println("Employee added successfully!");
     }
 
@@ -71,14 +125,20 @@ public class Main {
             return;
         }
 
+        // Prompt to update details or leave them unchanged
         System.out.print("Enter new name (leave blank to keep current): ");
         String name = scanner.nextLine();
+        if (!name.isEmpty()) employee.setName(name);
+
         System.out.print("Enter new department (leave blank to keep current): ");
         String department = scanner.nextLine();
+        if (!department.isEmpty()) employee.setDepartment(department);
+
         System.out.print("Enter new salary (or -1 to keep current): ");
         double salary = scanner.nextDouble();
+        if (salary != -1) employee.setSalary(salary);
+        scanner.nextLine(); // Consume newline
 
-        employeeService.editEmployee(id, name, department, salary);
         System.out.println("Employee updated successfully!");
     }
 
@@ -91,6 +151,15 @@ public class Main {
             System.out.println("Employee deleted successfully!");
         } else {
             System.out.println("Employee not found.");
+        }
+    }
+
+    private static Date parseDate(String dateStr) {
+        try {
+            return Employee.DATE_FORMAT.parse(dateStr);
+        } catch (Exception e) {
+            System.out.println("Invalid date format, setting as null");
+            return null;
         }
     }
 }
